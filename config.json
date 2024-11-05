@@ -32,6 +32,10 @@
             {   "index":8,
                 "title": "Scrum Board",
                 "command": ["google-chrome", "https://ecarxeu.atlassian.net/jira/software/c/projects/EESB/boards/278"]
+            },
+            {   "index":9,
+                "title": "Chatgpt",
+                "command": ["firefox", "https://chatgpt.com"]
             }
         ],
         "device_config": {"port": "1", "address": "60:E3:2B:A3:28:51"}
