@@ -1,18 +1,9 @@
-import json
-
 from flask import Flask, render_template_string, request, jsonify
-
 from BluetoothConnection import BluetoothConnection
 from Connection import ConnectionInterface
+from JsonHelper import read_json_file
 
 app = Flask(__name__)
-# Read and parse JSON file for configuration
-def read_json_file(json_path):
-    try:
-        with open(json_path, 'r', encoding="utf-8") as json_file:
-            return json.load(json_file)
-    except Exception as e:
-        print(e)
 
 json_dict = read_json_file("./config.json")
 buttons_config=json_dict["dock_config"]["buttons_config"]

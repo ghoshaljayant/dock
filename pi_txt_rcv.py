@@ -1,16 +1,7 @@
 import bluetooth
 import subprocess
 import threading
-import json
-
-
-def read_json_file(json_path):
-    try:
-        with open(json_path, 'r', encoding="utf-8") as json_file:
-            return json.load(json_file)
-    except Exception as e:
-        print(e)
-
+from JsonHelper import read_json_file
 
 json_dict=read_json_file("./config.json")
 button_configs=json_dict["dock_config"]["buttons_config"]
