@@ -1,10 +1,11 @@
-from flask import Flask, render_template_string, request, jsonify
-import bluetooth
-import threading
 import json
 
-app = Flask(__name__)
+from flask import Flask, render_template_string, request, jsonify
 
+from BluetoothConnection import BluetoothConnection
+from Connection import ConnectionInterface
+
+app = Flask(__name__)
 # Read and parse JSON file for configuration
 def read_json_file(json_path):
     try:
@@ -14,40 +15,22 @@ def read_json_file(json_path):
         print(e)
 
 json_dict = read_json_file("./config.json")
-
+buttons_config=json_dict["dock_config"]["buttons_config"]
 server_address = str(json_dict["dock_config"]["device_config"]["address"])
 port = int(json_dict["dock_config"]["device_config"]["port"])
 
-sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-
-buttons_config=json_dict["dock_config"]["buttons_config"]
-
-# Helper function to send data in a separate thread
-def send_in_thread(message):
-    def send():
-        try:
-            sock.send(message)
-            print(f"Message '{message}' sent successfully!")
-        except bluetooth.BluetoothError as e:
-            print(f"Error sending message '{message}': {e}")
-
-    thread = threading.Thread(target=send)
-    thread.start()
-    return thread
+# TODO here we need a factory method
+connection :ConnectionInterface = BluetoothConnection(server_address,port)
 
 # Function that runs when the page loads
 def run_on_page_load():    
-    try:
-        sock.connect((server_address, port))
-        print(f"Connected to {server_address} on port {port}")
-    except bluetooth.BluetoothError as e:
-        print(f"Failed to connect: {e}")
+    connection.initialize()
     return "Initial function executed on page load."
 
 # Function to trigger each button's action
 def function_action(index):
     print(index)
-    send_in_thread(index)
+    connection.send(index)
     return f"Function {index} Executed!"
 
 # Route for the homepage
@@ -60,7 +43,7 @@ def index():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dynamic Button Triggered Functions</title>
+            <title>Dock</title>
             <style>
                 body {
                     font-family: Arial, sans-serif;
