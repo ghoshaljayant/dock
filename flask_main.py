@@ -28,64 +28,7 @@ def function_action(index):
 @app.route('/')
 def index():
     run_on_page_load()
-    return render_template_string('''
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dock</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    padding: 20px;
-                }
-                button {
-                    font-size: 20px;
-                    font-weight: bold;
-                    padding: 15px 30px;
-                    margin: 10px;
-                    background-color: #007BFF;
-                    color: white;
-                    border: none;
-                    border-radius: 10px;
-                    cursor: pointer;
-                    transition: background-color 0.3s, transform 0.3s;
-                }
-                button:hover {
-                    background-color: #0056b3;
-                    transform: scale(1.05);
-                }
-                button:active {
-                    background-color: #004085;
-                }
-            </style>
-            <script>
-                function sendRequest(buttonValue) {
-                    fetch('/run-function', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ function: buttonValue })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('result').innerText = data.result;
-                    })
-                    .catch(error => console.error('Error:', error));
-                }
-            </script>
-        </head>
-        <body>
-            <h1>Choose an Action</h1>
-            {% for btn in buttons_config %}
-                <button onclick="sendRequest('{{ btn.index }}')">{{ btn.title }}</button>
-            {% endfor %}
-        </body>
-        </html>
-    ''', buttons_config=buttons_config)
+    return render_template('index.html', buttons_config=buttons_config)
 
 # Route to handle button press and run corresponding function
 @app.route('/run-function', methods=['POST'])

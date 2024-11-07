@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dock</title>
+    <style>
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f4f8; /* Soft, light background color */
+            color: #333; /* Dark gray text for contrast */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            cursor: none;
+        }
+
+        /* Clock Styling */
+        #clock {
+            font-size: 50px;
+            font-weight: 600;
+            color: #4a90e2; /* Soft blue color for clock */
+            margin-bottom: 20px;
+            cursor: none; /* Hide the mouse pointer */
+        }
+
+        /* Horizontal Line Styling */
+        hr {
+            width: 80%;
+            border: none;
+            height: 2px;
+            background-color: #cfd8dc; /* Light gray line */
+            margin: 20px auto;
+            cursor: none;
+        }
+
+        /* Heading Styling */
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+            color: #34495e; /* Dark slate blue */
+            cursor: none;
+        }
+
+        /* Button Styling */
+        button {
+            font-size: 18px;
+            padding: 12px 25px;
+            margin: 12px;
+            background-color: #6c8ebf; /* Calm blue color */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            background-color: #557aaf; /* Slightly darker blue on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            cursor: none;
+        }
+
+        /* Button Active Effect */
+        button:active {
+            background-color: #466899; /* Darker blue when active */
+            transform: scale(0.98); /* Slightly shrink on click */
+            cursor: none;
+        }
+
+        /* Result Display Styling */
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #34495e; /* Dark slate color */
+            cursor: none;
+        }
+    </style>
+    <script>
+        // Function to update the clock every second
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').innerText = hours + ':' + minutes + ':' + seconds;
+        }
+        setInterval(updateClock, 1000); // Update every second
+
+        function sendRequest(buttonValue) {
+            fetch('/run-function', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ function: buttonValue })
+            })
+            .then(response => response.json())
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Initialize the clock when the page loads
+        window.onload = updateClock;
+    </script>
+</head>
+<body>    
+    <!-- Clock Display -->
+    <div id="clock">Loading time...</div>
+
+    <!-- Divider -->
+    <hr> 
+
+    <!-- Heading and Buttons -->
+    <h1>Choose an Action</h1>
+    {% for btn in buttons_config %}
+        <button onclick="sendRequest('{{ btn.index }}')">{{ btn.title }}</button>
+    {% endfor %}
+
+    <!-- Result Display -->
+    <div id="result"></div>
+</body>
+</html>
