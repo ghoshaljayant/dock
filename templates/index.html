@@ -10,9 +10,10 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #f0f4f8; /* Soft, light background color */
-            color: #333; /* Dark gray text for contrast */
+            background-color: #000000; /* Black background */
+            color: #e0e0e0; /* Light gray text for contrast */
             overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: hidden; /* Prevent horizontal scrolling */
             cursor: none;
         }
 
@@ -20,7 +21,7 @@
         #clock {
             font-size: 50px;
             font-weight: 600;
-            color: #4a90e2; /* Soft blue color for clock */
+            color: #00bfff; /* Bright cyan-blue color for clock */
             margin-bottom: 20px;
             cursor: none; /* Hide the mouse pointer */
         }
@@ -30,7 +31,7 @@
             width: 80%;
             border: none;
             height: 2px;
-            background-color: #cfd8dc; /* Light gray line */
+            background-color: #333; /* Dark gray line */
             margin: 20px auto;
             cursor: none;
         }
@@ -39,7 +40,7 @@
         h1, h2 {
             font-size: 24px;
             font-weight: 500;
-            color: #34495e; /* Dark slate blue */
+            color: #ffffff; /* Pure white for headings */
             cursor: none;
             margin: 20px 0;
         }
@@ -54,25 +55,26 @@
             font-size: 18px;
             padding: 12px 25px;
             margin: 12px;
-            background-color: #6c8ebf; /* Calm blue color */
-            color: #fff;
-            border: none;
+            background-color: #333333; /* Dark gray color */
+            color: #ffffff; /* White text */
+            border: 1px solid #555555; /* Border for contrast */
             border-radius: 8px;
             cursor: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Soft shadow */
         }
 
         /* Button Hover Effect */
         button:hover {
-            background-color: #557aaf; /* Slightly darker blue on hover */
+            background-color: #555555; /* Slightly lighter gray on hover */
+            color: #00bfff; /* Change text to cyan-blue on hover */
             transform: scale(1.05); /* Slightly enlarge on hover */
             cursor: none;
         }
 
         /* Button Active Effect */
         button:active {
-            background-color: #466899; /* Darker blue when active */
+            background-color: #444444; /* Darker gray when active */
             transform: scale(0.98); /* Slightly shrink on click */
             cursor: none;
         }
@@ -81,7 +83,7 @@
         #result {
             margin-top: 20px;
             font-size: 18px;
-            color: #34495e; /* Dark slate color */
+            color: #e0e0e0; /* Light gray text */
             cursor: none;
         }
     </style>
@@ -118,8 +120,8 @@
 
     <!-- Divider -->
     <hr> 
-    
 
+    <!-- Dynamic Button Groups -->
     {% for group_index, group_buttons in buttons_group.items() %}
         <div class="button-group">
             <h2>{{ group_config[group_index]["name"] }}</h2>
