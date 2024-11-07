@@ -1,17 +1,41 @@
-from flask import Flask, render_template_string, request, jsonify
+import json
+from flask import Flask, render_template, request, jsonify
 from BluetoothConnection import BluetoothConnection
 from Connection import ConnectionInterface
-from JsonHelper import read_json_file
 
 app = Flask(__name__)
 
+# Read and parse JSON file for configuration
+def read_json_file(json_path):
+    try:
+        with open(json_path, 'r', encoding="utf-8") as json_file:
+            return json.load(json_file)
+    except Exception as e:
+        print(e)
+
 json_dict = read_json_file("./config.json")
-buttons_config=json_dict["dock_config"]["buttons_config"]
+
+group_config_dict = json_dict["dock_config"]["group_config"]
+group_length = len(group_config_dict)
+
+buttons_config = json_dict["dock_config"]["buttons_config"]
+
+buttons_group = dict()
+
+for group_key in group_config_dict.keys():
+    buttons_group[group_key]=list()
+
+for button in buttons_config:
+    buttons_group[button["group_index"]].append(button)
+
+print(buttons_group["1"])
+
+
 server_address = str(json_dict["dock_config"]["device_config"]["address"])
 port = int(json_dict["dock_config"]["device_config"]["port"])
 
 # TODO here we need a factory method
-connection :ConnectionInterface = BluetoothConnection(server_address,port)
+connection: ConnectionInterface = BluetoothConnection(server_address, port)
 
 # Function that runs when the page loads
 def run_on_page_load():    
@@ -28,7 +52,7 @@ def function_action(index):
 @app.route('/')
 def index():
     run_on_page_load()
-    return render_template('index.html', buttons_config=buttons_config)
+    return render_template('index.html', buttons_config=buttons_config,buttons_group=buttons_group, group_config=group_config_dict)
 
 # Route to handle button press and run corresponding function
 @app.route('/run-function', methods=['POST'])

@@ -1,40 +1,53 @@
 {
     "dock_config": {
+        "group_config":{
+            "1": {"name": "Personal"},
+            "2": {"name": "Work"}
+        },
         "buttons_config": [
             {   "index":1,
+                "group_index": "1",
                 "title": "Firefox",
                 "command": "firefox"
             },
             {   "index":2,
+                "group_index": "1",
                 "title": "Google Chrome",
                 "command": "google-chrome"
             },
             {   "index":3,
+                "group_index": "1",
                 "title": "Visual Studio Code",
                 "command": "code"
             },
             {   "index":4,
+                "group_index": "1",
                 "title": "Pycharm Community",
                 "command": "pycharm-community"
             },
             {   "index":5,
+                "group_index": "1",
                 "title": "Draw.io",
                 "command": "drawio"
             },
             {   "index":6,
+                "group_index": "1",
                 "title": "Youtube",
                 "command": ["google-chrome", "youtube.com"]
             },
             {   "index":7,
                 "title": "Gitlab",
+                "group_index": "2",
                 "command": ["google-chrome", "https://ecarxinternal.westeurope.cloudapp.azure.com/"]
             },
             {   "index":8,
                 "title": "Scrum Board",
+                "group_index": "2",
                 "command": ["google-chrome", "https://ecarxeu.atlassian.net/jira/software/c/projects/EESB/boards/278"]
             },
             {   "index":9,
                 "title": "Chatgpt",
+                "group_index": "1",
                 "command": ["firefox", "https://chatgpt.com"]
             }
         ],

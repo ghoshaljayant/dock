@@ -36,11 +36,17 @@
         }
 
         /* Heading Styling */
-        h1 {
+        h1, h2 {
             font-size: 24px;
             font-weight: 500;
             color: #34495e; /* Dark slate blue */
             cursor: none;
+            margin: 20px 0;
+        }
+
+        /* Button Group Styling */
+        .button-group {
+            margin-bottom: 20px;
         }
 
         /* Button Styling */
@@ -106,17 +112,22 @@
         window.onload = updateClock;
     </script>
 </head>
-<body>    
+<body>
     <!-- Clock Display -->
     <div id="clock">Loading time...</div>
 
     <!-- Divider -->
     <hr> 
+    
 
-    <!-- Heading and Buttons -->
-    <h1>Choose an Action</h1>
-    {% for btn in buttons_config %}
-        <button onclick="sendRequest('{{ btn.index }}')">{{ btn.title }}</button>
+    {% for group_index, group_buttons in buttons_group.items() %}
+        <div class="button-group">
+            <h2>{{ group_config[group_index]["name"] }}</h2>
+            {% for btn in group_buttons %}
+                <button onclick="sendRequest('{{ btn.index }}')">{{ btn.title }}</button>
+            {% endfor %}
+        </div>
+        <hr>
     {% endfor %}
 
     <!-- Result Display -->
